@@ -1,4 +1,5 @@
 <template>
+
   <div class="fluid container">
     <div class="form-group form-group-lg panel panel-default">
       <div class="panel-heading">
@@ -15,7 +16,7 @@
     <div class="col-md-3">
       <draggable class="list-group" tag="ul" v-model="list" v-bind="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
         <transition-group type="transition" :name="'flip-list'">
-          <li class="list-group-item" v-for="element in list" :key="element.order">
+          <li class="list-group-item" v-for="element in list" :key="element.order" >
             <i :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'" @click=" element.fixed=! element.fixed" aria-hidden="true"></i>
             {{element.name}}
             <span class="badge">{{element.order}}</span>
@@ -27,7 +28,7 @@
     <div class="col-md-3">
       <draggable element="span" v-model="list2" v-bind="dragOptions" :move="onMove">
         <transition-group name="no" class="list-group" tag="ul">
-          <li class="list-group-item" v-for="element in list2" :key="element.order">
+          <li class="list-group-item" v-for="element in list2" :key="element.order" @click="onPrint(element)">
             <i :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'" @click=" element.fixed=! element.fixed" aria-hidden="true"></i>
             {{element.name}}
             <span class="badge">{{element.order}}</span>
@@ -66,7 +67,7 @@ export default {
   data() {
     return {
       list: message.map((name, index) => {
-        return { name, order: index + 1, fixed: false };
+        return { name, order: index + 1, fixed: false , info : "this is "+name };
       }),
       list2: [],
       editable: true,
@@ -86,6 +87,9 @@ export default {
       return (
         (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
       );
+    },
+    onPrint(element){
+        console.info(element.info)
     }
   },
   computed: {
